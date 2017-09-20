@@ -8,5 +8,6 @@ RUN set -x && \
     apk del build_deps
 
 ADD nginx.conf.tmpl .
-ENTRYPOINT ["envsubst '$PROXY_SERVER $PROXY_PASS $PROXY_AUTH' < nginx.conf.tmpl > /etc/nginx/nginx.conf"]
+ENTRYPOINT ["/bin/sh", "-c", \
+	"envsubst '$PROXY_SERVER $PROXY_PASS $PROXY_AUTH' < nginx.conf.tmpl > /etc/nginx/nginx.conf; nginx -g 'daemon off;'"]
 
